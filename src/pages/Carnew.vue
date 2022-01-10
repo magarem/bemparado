@@ -1,298 +1,263 @@
 <template>
-  <div
-    _class="q-pa-md"
-    style="_max-width: 400px"
-  >
-      <div class="row row q-col-gutter-xs" >  
-          <div class="col-12 text-center" style="margin-top: 4px; padding: 11px; background-color: #90ee90;">
-            <span style="font-size: 23px; color: black;" _class="q-mt-sm">Entrada</span>
-          </div>
-          <!-- <div class="col-8">
-             <q-input
-                class="font1"
-                v-model="car.in_timestamp"
-                filled
-                readonly
-              />
-          </div> -->
+  <div>
+    <div class="row row q-col-gutter-xs" >  
+      <div class="col-12 text-center" style="margin-top: 4px; padding: 11px; background-color: #90ee90;">
+        <span style="font-size: 23px; color: black;">Entrada</span>
       </div>
-      <br>
-     
-    
-
-    <q-form
-      _class="q-gutter-md"
-      @submit="insert"
-      @reset="onReset"
-    >   
-   
-      <!-- <q-card> -->
-        <q-tabs
-          style="font-size: 15px;"
-          v-model="tab"
-          dense
-          class="text-grey"
-          active-color="primary"
-          indicator-color="primary"
-          align="justify"
-          narrow-indicator
-        >
-          <q-tab name="placa" label="Veículo" />
-          <q-tab v-if="flg_placa_ok" name="info" label="Info" />
-          <q-tab v-if="flg_placa_ok" name="owner" label="Dono" />
-          <q-tab v-if="flg_placa_ok" name="valor" label="Valor" />
-        </q-tabs>
-
-        <q-separator />
-
-        <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="placa">
-            
-      <!-- <q-card-section> -->
-     
-    
-        <span style="font-size: 20px;">Placa</span>
-      <q-input
-            mask="XXXXXXX"
-            class="font3"
-            v-model="car.placa"
-            maxlength="7"
-            filled
-            autofocus
-            debounce="1000"
-            :rules="[val => !!val || 'Defina a placa', val => val.length == 7 || '7 dígitos']"
-        
-        />
+    </div>
+    <br>
+    <q-form @submit="insertTest" @reset="onReset" >   
+      <q-tabs
+        style="font-size: 15px;"
+        v-model="tab"
+        dense
+        class="text-grey"
+        active-color="primary"
+        indicator-color="primary"
+        align="justify"
+        narrow-indicator>
+        <q-tab name="placa" label="Veículo" />
+        <q-tab v-if="flg_placa_ok" name="info" label="Info" />
+        <q-tab v-if="flg_placa_ok" name="dono" label="Dono" />
+        <q-tab v-if="flg_placa_ok" name="valor" label="Valor" />
+      </q-tabs>
+      <q-separator />
+      <q-tab-panels v-model="tab" animated>  
+       
+        <q-tab-panel name="placa">
+          <span style="font-size: 20px;">Placa</span>
+          <div class="q-gutter-sm text-center self-center">
+            <div class="col-12 text-center self-center">
+             
+              <q-input
+                mask="XXXXXXX"
+                class="font3"
+                style="width: 200px;"
+                v-model="car.placa"
+                maxlength="7"
+                filled
+                autofocus
+                debounce="1000"
+                :rules="[val => !!val || 'Defina a placa', val => val.length == 7 || '7 dígitos']"
+              />
+           
+            </div>
+          </div>
           <div class="q-gutter-sm">
-          <q-radio v-model="car.type" val="carro"   label="Carro" />
-          <q-radio v-model="car.type" val="moto" label="Moto" />
-        </div><br>
-         <q-btn  @click="chamatab('info')" label="Próximo"></q-btn>
-       
-      <!-- </q-card-section> -->
-       
-          </q-tab-panel>
-
-          <q-tab-panel name="info">
-          <!-- <q-card class="my-card">
-        <q-card-section> -->
+            <q-radio v-model="car.tipo" val="carro" label="Carro" />
+            <q-radio v-model="car.tipo" val="moto" label="Moto" />
+          </div><br>
+          <q-btn  @click="chamatab('info')" label="Próximo"></q-btn>
+        </q-tab-panel>
+        
+        <q-tab-panel name="info">
           <div class="text-h6">Dados do veículo</div>
-        <br>
-        <q-input
+          <br>
+          <q-input
             class="font2"
-            v-model="car.modelo"
+            v-model="car.info.modelo"
             filled
             label="Modelo"
-        /><br>
-
-         <q-input
-        class="font2"
-        v-model="car.cor"
-        filled
-        label="Cor"
-      /><br>
-       <q-input
-          class="font2"
-          v-model="car.obs"
-          filled
-          label="Obs"
-        />
-        <br>
-         <q-btn @click="chamatab('owner')" label="Próximo"></q-btn>
-        
-      <!-- </q-card-section>
-          </q-card> -->
-          </q-tab-panel>
-
-          <q-tab-panel name="owner">
-           
-              <!-- <q-card flat bordered class="my-card">
-          
-          <q-card-section> -->
-            <div class="text-h6">Dados do proprietário</div>
-          <br>
-            <q-input
-                class="font2"
-                v-model="car.owner.name"
-                filled
-                label="Proprietário"
-            /><br>
-
-            <q-input
+          /><br>
+          <q-input
             class="font2"
-            v-model="car.owner.contato"
+            v-model="car.info.cor"
+            filled
+            label="Cor"
+          /><br>
+          <q-input
+            class="font2"
+            v-model="car.info.obs"
+            filled
+            label="Obs"
+          />
+          <br>
+          <q-btn @click="chamatab('dono')" label="Próximo"></q-btn>
+        </q-tab-panel>
+
+        <q-tab-panel name="dono">
+          <div class="text-h6">Dados do proprietário</div>
+          <br>
+          <q-input
+            class="font2"
+            v-model="car.dono.nome"
+            filled
+            label="Proprietário"
+          /><br>
+          <q-input
+            class="font2"
+            v-model="car.dono.contato"
             filled
             label="Contato"
           /><br>
           <q-input
-              class="font2"
-              v-model="car.owner.hostel"
-              filled
-              label="Pousada"
-            /><br>
-          <q-input
-              class="font2"
-              v-model="car.owner.obs"
-              filled
-              label="Obs"
-            />
-            <br>
-             <q-btn @click="chamatab('valor')" label="Próximo"></q-btn>
-           
-          <!-- </q-card-section>
-              </q-card> -->
-        
-          </q-tab-panel>
-
-
-          <q-tab-panel name="valor">
- <!-- <q-card class="my-card">
-      <q-card-section> -->
-          <div class="text-h6">Valor a pagar</div>
-        <br>
-        <div class="row row q-col-gutter-xs" >  
-          <div class="col-6">
-          <q-input
-          class="font2"
-          v-model="car.n_diarias"
-          filled
-          label="Diárias"
-        />
-          </div>
-          <div class="col-6">
-            <QCurrencyInput
-            v-model="car.valor_diaria"
             class="font2"
-            label="Valor diária"
-            :key="componentKey_valor_diaria"
-            :options="{	locale: 'pt-BR',
-              currency: 'BRL',
-              currencyDisplay: 'symbol',
-              valueRange: undefined,
-              precision: undefined,
-              hideCurrencySymbolOnFocus: false,
-              hideGroupingSeparatorOnFocus: false,
-              hideNegligibleDecimalDigitsOnFocus: false,
-              autoDecimalDigits: true,
-              exportValueAsInteger: false,
-              autoSign: true,
-              useGrouping: true
-            }"
+            v-model="car.dono.pousada"
+            filled
+            label="Pousada"
+          /><br>
+          <q-input
+            class="font2"
+            v-model="car.dono.obs"
+            filled
+            label="Obs"
           />
+          <br>
+          <q-btn @click="chamatab('valor')" label="Próximo"></q-btn>
+        </q-tab-panel>
+
+        <q-tab-panel name="valor">
+          <div class="text-h6">Valor a pagar</div>
+          <br>
+          <div class="row row q-col-gutter-xs" >  
+            <div class="col-6">
+              <q-input
+                class="font2"
+                v-model="car.checkout.n_diarias"
+                filled
+                label="Diárias" />
+            </div>
+            <div class="col-6">
+              <QCurrencyInput
+              v-model="car.checkout.valor_diaria"
+              class="font2"
+              label="Valor diária"
+              :key="componentKey_valor_diaria"
+              :options="{	locale: 'pt-BR',
+                currency: 'BRL',
+                currencyDisplay: 'symbol',
+                valueRange: undefined,
+                precision: undefined,
+                hideCurrencySymbolOnFocus: false,
+                hideGroupingSeparatorOnFocus: false,
+                hideNegligibleDecimalDigitsOnFocus: false,
+                autoDecimalDigits: true,
+                exportValueAsInteger: false,
+                autoSign: true,
+                useGrouping: true
+              }" />
+            </div>
           </div>
-        </div>
-        <div class="row row q-col-gutter-xs" >  
-        <div class="col-6">
-       <QCurrencyInput
-          :key="componentKey" 
-          class="font2"
-          v-model="car.valor_total"
-          label="Total a pagar"
-          readonly
-          :options="{	locale: 'pt-BR',
-            currency: 'BRL',
-            currencyDisplay: 'symbol',
-            valueRange: undefined,
-            precision: undefined,
-            hideCurrencySymbolOnFocus: false,
-            hideGroupingSeparatorOnFocus: false,
-            hideNegligibleDecimalDigitsOnFocus: false,
-            autoDecimalDigits: true,
-            exportValueAsInteger: false,
-            autoSign: true,
-            useGrouping: true
-          }"
-        />
-        </div>
-        <div class="col-6">
-         <QCurrencyInput
-          :key="componentKey_valor_pago" 
-          v-model="car.valor_pago"
-          class="font2"
-          label="Valor pago"
-          :options="{	locale: 'pt-BR',
-            currency: 'BRL',
-            currencyDisplay: 'symbol',
-            valueRange: undefined,
-            precision: undefined,
-            hideCurrencySymbolOnFocus: false,
-            hideGroupingSeparatorOnFocus: false,
-            hideNegligibleDecimalDigitsOnFocus: false,
-            autoDecimalDigits: true,
-            exportValueAsInteger: false,
-            autoSign: true,
-            useGrouping: true
-          }"
-        /></div></div>
-         <QCurrencyInput
-         class="font2"
-          :key="componentKey" 
-          v-model="car.valor_troco"
-          label="Troco"
-          readonly
-          :options="{	locale: 'pt-BR',
-            currency: 'BRL',
-            currencyDisplay: 'symbol',
-            valueRange: undefined,
-            precision: undefined,
-            hideCurrencySymbolOnFocus: false,
-            hideGroupingSeparatorOnFocus: false,
-            hideNegligibleDecimalDigitsOnFocus: false,
-            autoDecimalDigits: true,
-            exportValueAsInteger: false,
-            autoSign: true,
-            useGrouping: true
-          }"
-        />
-        <q-btn v-if="flg_placa_ok && car.valor_troco >= 0"
-          label="Registrar"
-          type="submit"
-          color="primary"
-        />
- <!-- </q-card-section>
-    </q-card> -->
-          </q-tab-panel>
-        </q-tab-panels>
-      <!-- </q-card> -->
-      <!-- <q-toggle v-model="accept" label="I accept the license and terms" /> -->
+          <div class="row row q-col-gutter-xs" >  
+            <div class="col-6">
+              <QCurrencyInput
+                :key="componentKey" 
+                class="font2"
+                v-model="car.checkout.valor_a_pagar"
+                label="Total a pagar"
+                readonly
+                :options="{	locale: 'pt-BR',
+                  currency: 'BRL',
+                  currencyDisplay: 'symbol',
+                  valueRange: undefined,
+                  precision: undefined,
+                  hideCurrencySymbolOnFocus: false,
+                  hideGroupingSeparatorOnFocus: false,
+                  hideNegligibleDecimalDigitsOnFocus: false,
+                  autoDecimalDigits: true,
+                  exportValueAsInteger: false,
+                  autoSign: true,
+                  useGrouping: true
+                }"
+              />
+            </div>
+            <div class="col-6">
+              <q-select v-model="car.checkout.forma_de_pagamento" :options="forma_de_pagamento_options" label="Forma de pagamento" />
+            </div>
+          </div>
+          <div class="row row q-col-gutter-xs" >  
+            <div class="col-6">
+              <QCurrencyInput
+                :key="componentKey_valor_pago" 
+                v-model="car.checkout.valor_pago"
+                class="font2"
+                label="Valor pago"
+                :options="{	locale: 'pt-BR',
+                  currency: 'BRL',
+                  currencyDisplay: 'symbol',
+                  valueRange: undefined,
+                  precision: undefined,
+                  hideCurrencySymbolOnFocus: false,
+                  hideGroupingSeparatorOnFocus: false,
+                  hideNegligibleDecimalDigitsOnFocus: false,
+                  autoDecimalDigits: true,
+                  exportValueAsInteger: false,
+                  autoSign: true,
+                  useGrouping: true
+                }"
+              />
+            </div>
+            <div class="col-6">
+              <QCurrencyInput
+                class="font2"
+                :key="componentKey" 
+                v-model="car.checkout.valor_troco"
+                label="Troco"
+                readonly
+                :options="{	locale: 'pt-BR',
+                  currency: 'BRL',
+                  currencyDisplay: 'symbol',
+                  valueRange: undefined,
+                  precision: undefined,
+                  hideCurrencySymbolOnFocus: false,
+                  hideGroupingSeparatorOnFocus: false,
+                  hideNegligibleDecimalDigitsOnFocus: false,
+                  autoDecimalDigits: true,
+                  exportValueAsInteger: false,
+                  autoSign: true,
+                  useGrouping: true
+                }"
+              />
+            </div>
+          </div>
+          <q-btn v-if="flg_placa_ok && (car.checkout.valor_troco >= 0 || car.checkout.forma_de_pagamento == 'Em aberto') "
+            label="Registrar"
+            type="submit"
+            color="primary"
+          />
+        </q-tab-panel>
+      
+      </q-tab-panels>
     </q-form>
   </div>
 
-  <q-dialog
-      v-model="dialog_save_ok"
-    >
-      <q-card style="width: 300px">
-        <q-card-section>
-          <div class="text-h6">Veículo registrado!</div>
-        </q-card-section>
+  <q-dialog v-model="dialog_save_ok" >
+    <q-card style="width: 300px">
+      <q-card-section>
+        <div class="text-h6">Veículo registrado!</div>
+      </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          <span class=dialog_save_ok>
-
-            <!-- <canvas ref="qrcode"></canvas> -->
-            <!-- <vue-qrious value="https://www.1stg.me" /> -->
-            <canvas ref="qrcode" width=200 height=200></canvas>
-            <canvas ref="qrcode2" width=200 height=200 style="display: none;"></canvas>
-             
-             <!-- <QRCodeVue3
-             ref="qrcode"
-          :value=qrcodevalue
-          :width="160"
-          :height="160"
-        /> -->
-        <br>
-            <b>Entrada:</b><br>{{registrada.timestamp}}<br>
-            <b>Placa:</b> {{registrada.placa}}<br>
-            <b>Ticket:</b> {{registrada.ticket}}
-          </span>
-        </q-card-section>
-
-        <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn color="primary" label="Print" @click="print" />
-          <q-btn flat label="OK" v-close-popup />
-        </q-card-actions>
-      </q-card>
+      <q-card-section class="q-pt-none">
+        <span class=dialog_save_ok>
+          <canvas ref="qrcode" width=200 height=200></canvas>
+          <canvas ref="qrcode2" width=200 height=200 style="display: none;"></canvas>
+          <br>
+          <b>Ticket:</b>{{registrada.ticket}}
+          <b>Entrada:</b><br>{{registrada.in_timestamp}}<br>
+          <b>Placa:</b> {{registrada.placa}}<br>
+          <b>Tipo:</b><br>{{registrada.tipo}}<br>
+          <b>modelo:</b><br>{{registrada.info.modelo}}<br>
+          <b>cor:</b><br>{{registrada.info.cor}}<br>
+          <b>Obs:</b><br>{{registrada.info.obs}}<br>
+          <b>Dono:</b><br>{{registrada.dono.nome}}<br>
+          <b>Contato:</b><br>{{registrada.dono.contato}}<br>
+          <b>Pousada:</b><br>{{registrada.dono.pousada}}<br>
+          <b>Obs:</b><br>{{registrada.dono.obs}}<br>
+          <b>N° diárias:</b><br>{{registrada.checkout.n_diarias}}<br>
+          <b>Valor diária:</b><br>{{registrada.checkout.valor_diaria}}<br>
+          <b>Total a pagar:</b><br>{{registrada.checkout.total_a_pagar}}<br>
+          <b>Forma de pagamento:</b><br>{{registrada.checkout.forma_de_pagamento}}<br>
+          <b>Valor pago:</b><br>{{registrada.checkout.valor_pago}}<br>
+          <b>Troco:</b><br>{{registrada.checkout.troco}}<br>
+        </span>
+      </q-card-section>
+      <q-card-actions align="right" class="bg-white text-teal">
+        <q-btn color="primary" label="Print" @click="print" />
+        <q-btn flat label="OK" v-close-popup />
+      </q-card-actions>
+    </q-card>
   </q-dialog>
+
 </template>
 <script>
 import { useQuasar, date } from 'quasar'
@@ -300,17 +265,13 @@ import { ref, watch, watchEffect, onBeforeUnmount, getCurrentInstance, nextTick 
 import { useRouter } from 'vue-router' // import router
 import firebase from 'firebase'
 import "firebase/firestore"
-// import QRious from "qrious";
-// import VueQrious from 'vue-qrious'
-// import QRCodeVue3 from "qrcode-vue3";
 import QRious from "qrious";
 import QCurrencyInput from "../QCurrencyInput.vue";
 export default {
   components: {
-    QCurrencyInput,
+    QCurrencyInput
   },
   setup () {
-    let qrcodevalue = ref('oi')
     let qrcode = ref(null)
     let qrcode2 = ref(null)
     var qrLink = ref("")
@@ -318,18 +279,12 @@ export default {
     const router = useRouter()
     const flg_placa_ok = ref(false)
     const tab = ref('placa')
-    const valor_diaria = ref(40)
-    const ticket = ref(0)
     const dialog_save_ok = ref(false)
     const registrada = ref({})
     const componentKey = ref(0)
     const componentKey_valor_pago = ref(0)
     const componentKey_valor_diaria = ref(0)
-    const forma_de_pagamento = ref('Dinheiro')
-    const forma_de_pagamento_options = ['Dinheiro', 'Cartão de débito', 'Cartão de crédito', 'Pix', 'Outros']
-    // const plusOne = computed(() => count.value + 1)
-    // const timeStamp = Date.now()
-    // const formattedString = date.formatDate(timeStamp, 'DD-MM-YYYYTHH:mm:ss.SSSZ')
+    const forma_de_pagamento_options = ['Dinheiro', 'Cartão de débito', 'Cartão de crédito', 'Pix', 'Em aberto']
     const authListener = firebase.auth().onAuthStateChanged(function(user) {
       if (!user) { // not logged in
         alert('you must be logged in to view this. redirecting to the home page')
@@ -344,20 +299,13 @@ export default {
         let index = 0;
         let data;
 
-        // let image = document.querySelector('#qr');
-        // let image = document.getElementById("qr-code")
         let image = qrcode.value
-        // Use the canvas to get image data
-        // let canvas = document.createElement('canvas');
-        // Canvas dimensions need to be a multiple of 40 for this printer
         let canvas = qrcode2.value
         canvas.width = 200;
         canvas.height = 200;
         let context = canvas.getContext("2d");
         context.drawImage(image, 0, 0, canvas.width, canvas.height);
         let imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
-        // let imageData = image.getContext("2d").getImageData(0, 0, canvas.width, canvas.height).data;
-        // console.log(imageData)
         function getDarkPixel(x, y) {
           // Return the pixels that will be printed black
           let red = imageData[((canvas.width * y) + x) * 4];
@@ -374,8 +322,7 @@ export default {
           }
           
           // Each 8 pixels in a row is represented by a byte
-          let printData = new Uint8Array(canvas.width / 8 * canvas.height + 8);
-          console.log('printdata:', printData)
+          let printData = new Uint8Array(canvas.width / 8 * canvas.height + 8)
           let offset = 0;
           // Set the header bytes for printing the image
           printData[0] = 29;  // Print raster bitmap
@@ -392,10 +339,11 @@ export default {
             for (let k = 0; k < canvas.width / 8; ++k) {
               let k8 = k * 8;
               //  Pixel to bit position mapping
-              printData[++offset] = getDarkPixel(k8 + 0, i) * 128 + getDarkPixel(k8 + 1, i) * 64 +
-                          getDarkPixel(k8 + 2, i) * 32 + getDarkPixel(k8 + 3, i) * 16 +
-                          getDarkPixel(k8 + 4, i) * 8 + getDarkPixel(k8 + 5, i) * 4 +
-                          getDarkPixel(k8 + 6, i) * 2 + getDarkPixel(k8 + 7, i);
+              printData[++offset] = 
+                getDarkPixel(k8 + 0, i) * 128 + getDarkPixel(k8 + 1, i) * 64 +
+                getDarkPixel(k8 + 2, i) * 32 + getDarkPixel(k8 + 3, i) * 16 +
+                getDarkPixel(k8 + 4, i) * 8 + getDarkPixel(k8 + 5, i) * 4 +
+                getDarkPixel(k8 + 6, i) * 2 + getDarkPixel(k8 + 7, i);
             }
           }
           return printData;
@@ -503,9 +451,19 @@ export default {
       }
     }
 
-
-
     const $q = useQuasar()
+    let objReset = (obj) => {
+      Object.keys(obj).map(key => {
+        // Test if it's an Object
+        if (obj[key] === Object(obj[key])) {
+          objReset(obj[key])
+          return
+        }
+        if (obj[key] instanceof Array) obj[key] = []
+        else obj[key] = undefined
+      })
+    }
+
     const config =  {
           masked: false,
           prefix: '',
@@ -522,21 +480,30 @@ export default {
         }
    
     const car = ref({
+      ticket: null,
       in_timestamp: null,
       placa: null,
-      modelo: null,
-      type: 'carro',
-      cor: null,
-      obs: null,
-      n_diarias: 1,
-      valor_diaria: 30.00,
-      valor_total: 35.00,
-      valor_pago: 0,
-      valor_troco: 0,
-      cliente_email: null,
-      owner:{}
+      tipo: 'carro',
+      info: {
+        modelo: null,
+        cor: null,
+        obs: null
+      },
+      dono: {
+        nome: null,
+        contato: null,
+        pousada: null,
+        obs: null
+      },
+      checkout: {
+        n_diarias: 1,
+        valor_diaria: 30.00,
+        valor_a_pagar: 30.00,
+        forma_de_pagamento: null,
+        valor_pago: 0,
+        valor_troco: 0
+      }
     })
-
     let entradas = null
 
     const chamatab = (val) => {
@@ -547,7 +514,7 @@ export default {
 
     const total_calc = () => {
         console.log("!!");
-        car.value.valor_total = car.value.valor_diaria * car.value.n_diarias
+        car.value.checkout.valor_a_pagar = car.value.checkout.valor_diaria * car.value.checkout.n_diarias
     }
     
     const getNow = () => {
@@ -557,133 +524,113 @@ export default {
       const dateTime = time + '  ' + date
       car.value.in_timestamp = dateTime
     }
-    watch(() => car.value.valor_diaria, (x) => {
-      console.log(12, x);
-      // componentKey.value += 1
-      // car.value.valor_total = 11//car.value.n_diarias * car.value.valor_diaria
-    })
-    watch(() => car.value.placa, (x) => { 
-      if (x?.length > 6) {
-        flg_placa_ok.value = true
-      }else{
-        flg_placa_ok.value = false
-      }
-      }
-    );
-    watchEffect(() => console.log('!2'));
+
+    watch(() => car.value.placa, (x) => flg_placa_ok.value = x.length > 6 );
+   
     watchEffect(() => {
+      console.log(1);
       componentKey.value += 1
-      // componentKey_valor_pago.value += 1
-      car.value.valor_total = car.value.n_diarias * car.value.valor_diaria
-      console.log(car.value.n_diarias, car.value.valor_diaria, car.value.valor_total);
-      car.value.valor_troco = car.value.valor_pago - car.value.valor_total
-   //   console.log(oldValue);
+      car.value.checkout.valor_a_pagar = car.value.checkout.n_diarias * car.value.checkout.valor_diaria
+      console.log(car.value.checkout.n_diarias, car.value.checkout.valor_diaria, car.value.checkout.valor_a_pagar);
+      car.value.checkout.valor_troco = car.value.checkout.valor_pago - car.value.checkout.valor_a_pagar
     });
+
     const onReset = async () => {
-        
-        car.value = {
-            in_timestamp: null,
-            placa: null,
-            modelo: null,
-            cor: null,
-            obs: null,
-            n_diarias: 1,
-            valor_diaria: 30,
-            valor_total: 0,
-            valor_pago: 0,
-            valor_troco: 0,
-            out_timestamp: null,
-        }
-        await nextTick()
-        car.value.valor_diaria = 30
-        componentKey.value += 1
-        componentKey_valor_pago.value += 1
-        componentKey_valor_diaria.value += 1
+      objReset(car.value)
+      // car.value = {
+      //     ticket: null,
+      //     in_timestamp: null,
+      //     placa: null,
+      //     tipo: null,
+      //     modelo: null,
+      //     cor: null,
+      //     obs: null,
+      //     dono: null,
+      //     contato: null,
+      //     pousada: null,
+      //     obs: null,
+      //     n_diarias: 1,
+      //     valor_diaria: 30,
+      //     valor_total: 0,
+      //     valor_pago: 0,
+      //     valor_troco: 0,
+      //     pago: false,
+      //     out_timestamp: null,
+      // }
+      await nextTick()
+      car.value.valor_diaria = 30
+      componentKey.value += 1
+      componentKey_valor_pago.value += 1
+      componentKey_valor_diaria.value += 1
+    }
+
+    const insertTest = async () => {
+      console.log(car.value);
     }
 
     const insert = async () => {
       const query = db.collection("carros");
       const snapshot = await query.get();
       const count = snapshot.size;
+     
+      // let car_to_save = {
+      //   ticket: car.value.placa + '-' + (parseInt(+ new Date()/1000)),
+      //   domain: 'teste',
+      //   in_timestamp: + new Date(),
+      //   placa: car.value.placa,
+      //   tipo: car.value.tipo,
+      //   modelo: car.value.modelo,
+      //   cor: car.value.cor,
+      //   dono: car.value.dono, 
+      //   contato: car.value.contato,
+      //   pousada: car.value.pousada,
+      //   obs: car.value.obs,
+      //   n_diarias: car.value.n_diarias,
+      //   valor_diaria: car.value.valor_diaria,
+      //   valor_total_a_pagar: car.value.valor_total_a_pagar,
+      //   valor_pago: car.value.valor_pago,
+      //   valor_troco: car.value.valor_troco,
+      //   out_timestamp: null
+      // }
+      // registrada.value = car_to_save.value
 
-        console.log('count:', count);
-        console.log(car.value);
-        let car_to_save = {
-          domain: 'teste',
-          in_timestamp: + new Date(),
-          modelo: car.value.modelo,
-          cor: car.value.cor,
-          placa: car.value.placa,
-          obs: car.value.obs,
-          n_diarias: car.value.n_diarias,
-          valor_diaria: car.value.valor_diaria,
-          valor_total: car.value.valor_total,
-          valor_pago: car.value.valor_pago,
-          valor_troco: car.value.valor_troco,
-          out_timestamp: null,
-          ticket: car.value.placa + '-' + (parseInt(+ new Date()/1000))
-        }
-        registrada.value = {
-          timestamp: new Date(car_to_save.in_timestamp),
-          placa: car_to_save.placa,
-          ticket: car_to_save.ticket
-        }
-        db.collection("carros").add(car_to_save)
-        .then((docRef) => {
-            console.log("Document written with ID: ", docRef.id);
-            
-           
-            console.log(car.value.in_timestamp);
-            qrLink.value = docRef.id
+      db.collection("carros")
+      .add(car.value)
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+        console.log(car.value.in_timestamp);
+        qrLink.value = docRef.id
         generateQrCode()
-        })
-        .catch((error) => {
-            console.error("Error adding document: ", error);
-        });
-       
-       
-        
-        onReset()
-        dialog_save_ok.value = true
-        // $q.notify({
-        //   color: 'green-4',
-        //   textColor: 'white',
-        //   icon: 'cloud_done',
-        //   message: 'Veículo registrado com sucesso!'
-        // })
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });  
+      onReset()
+      dialog_save_ok.value = true  
     }
-    // onBeforeUnmount(() => {
-    //   // clear up listener
-    //   authListener()
-    // })
+  
     setInterval(getNow, 1000)
-    return {
-      print,
-      qrcodevalue,
-      qrcode,
-      qrcode2,
-      qrLink,
-      flg_placa_ok,
-      chamatab,
-      tab,
-      dialog_save_ok, registrada, ticket,
-      componentKey, componentKey_valor_pago, componentKey_valor_diaria, insert, car, 
-      onReset, config, valor_diaria, forma_de_pagamento, forma_de_pagamento_options
+    return {insertTest,
+      print, qrcode, qrcode2, qrLink,
+      flg_placa_ok, chamatab,tab,
+      dialog_save_ok, registrada, componentKey, 
+      componentKey_valor_pago, componentKey_valor_diaria, insert, car, 
+      onReset, config, forma_de_pagamento_options
     }
   }
 }
 </script>
 <style scoped>
- .dialog_save_ok {
-   font-size: 27px;
- }
- .font1 {
-   font-size: 19px;
- }
- .font2 {
-   font-size: 22px;
- } 
- .font3 {
-   font-size: 35px;
- }
+  .dialog_save_ok {
+    font-size: 27px;
+  }
+  .font1 {
+    font-size: 19px;
+  }
+  .font2 {
+    font-size: 22px;
+  } 
+  .font3 {
+    font-size: 35px;
+  }
 </style>

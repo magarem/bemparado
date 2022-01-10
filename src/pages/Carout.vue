@@ -7,7 +7,7 @@
           <!-- <div class="col-4" style="margin-top: 4px; padding: 11px; background-color: orange;">
             <span style="font-size: 23px;" _class="q-mt-sm">Saída</span>
           </div> -->
-            <div class="col-12 text-center" style="margin-top: 4px; padding: 11px; background-color: orange;">
+          <div class="col-12 text-center" style="margin-top: 4px; padding: 11px; background-color: orange;">
             <span style="font-size: 23px; color: black;" _class="q-mt-sm">Saída</span>
           </div>
           <!-- <div class="col-8">
@@ -26,8 +26,9 @@
       @reset="onReset"
     >
     <qr-stream v-if=!data @decode="onDecode" class="mb"></qr-stream>
-    <div class="result">
+    <!-- <div class="result"> -->
       <q-btn
+        v-if=data
         class="full-width"
         @click="qrcode_reader_reload"
         type=button
@@ -35,7 +36,7 @@
         label="Ler Qrcode"
         size="md"
         />
-    </div>
+    <!-- </div> -->
     <div v-if=data>
     <div class="row q-col-gutter-xs" >
             <!-- <div class="col-12">
