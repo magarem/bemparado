@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div class="row row q-col-gutter-xs" >  
-      <div class="col-12 text-center" style="margin-top: 4px; padding: 11px; background-color: #90ee90;">
-        <span style="font-size: 23px; color: black;">Entrada</span>
+    <div class="row row q-col-gutter-xs" style="margin-bottom: 8px;">  
+      <div class="col-12 text-center" style="_margin-top: 4px; _padding: 11px; background-color: #90ee90;">
+        <span style="font-size: 20px; color: black;">Entrada</span>
       </div>
     </div>
-    <br>
-    <q-form @submit="insertTest" @reset="onReset" >   
+    <q-form @submit="insert" @reset="onReset" >   
       <q-tabs
         style="font-size: 15px;"
         v-model="tab"
@@ -26,12 +25,11 @@
        
         <q-tab-panel name="placa">
           <span style="font-size: 20px;">Placa</span>
-          <div class="q-gutter-sm text-center self-center">
+          <div class="row text-center self-center">
             <div class="col-12 text-center self-center">
-             
               <q-input
                 mask="XXXXXXX"
-                class="font3"
+                class="font3 text-center"
                 style="width: 200px;"
                 v-model="car.placa"
                 maxlength="7"
@@ -47,12 +45,12 @@
             <q-radio v-model="car.tipo" val="carro" label="Carro" />
             <q-radio v-model="car.tipo" val="moto" label="Moto" />
           </div><br>
-          <q-btn  @click="chamatab('info')" label="Próximo"></q-btn>
+          <q-btn @click="chamatab('info')" label="Próximo" color="secondary" class=full-width></q-btn>
         </q-tab-panel>
         
         <q-tab-panel name="info">
-          <div class="text-h6">Dados do veículo</div>
-          <br>
+          <!-- <div class="text-h6">Dados do veículo</div>
+          <br> -->
           <q-input
             class="font2"
             v-model="car.info.modelo"
@@ -72,12 +70,12 @@
             label="Obs"
           />
           <br>
-          <q-btn @click="chamatab('dono')" label="Próximo"></q-btn>
+          <q-btn @click="chamatab('dono')" label="Próximo" class=full-width></q-btn>
         </q-tab-panel>
 
         <q-tab-panel name="dono">
-          <div class="text-h6">Dados do proprietário</div>
-          <br>
+          <!-- <div class="text-h6">Dados do proprietário</div>
+          <br> -->
           <q-input
             class="font2"
             v-model="car.dono.nome"
@@ -103,12 +101,12 @@
             label="Obs"
           />
           <br>
-          <q-btn @click="chamatab('valor')" label="Próximo"></q-btn>
+          <q-btn @click="chamatab('valor')" label="Próximo"  class=full-width></q-btn>
         </q-tab-panel>
 
         <q-tab-panel name="valor">
-          <div class="text-h6">Valor a pagar</div>
-          <br>
+          <!-- <div class="text-h6">Valor a pagar</div>
+          <br> -->
           <div class="row row q-col-gutter-xs" >  
             <div class="col-6">
               <q-input
@@ -211,13 +209,14 @@
             </div>
           </div>
           <q-btn v-if="flg_placa_ok && (car.checkout.valor_troco >= 0 || car.checkout.forma_de_pagamento == 'Em aberto') "
+            class=full-width
             label="Registrar"
             type="submit"
             color="primary"
           />
         </q-tab-panel>
-      
       </q-tab-panels>
+      <textarea v-model="teste" style="width: 100%; height: 400px;"></textarea>
     </q-form>
   </div>
 
@@ -232,28 +231,28 @@
           <canvas ref="qrcode" width=200 height=200></canvas>
           <canvas ref="qrcode2" width=200 height=200 style="display: none;"></canvas>
           <br>
-          <b>Ticket:</b>{{registrada.ticket}}
-          <b>Entrada:</b><br>{{registrada.in_timestamp}}<br>
-          <b>Placa:</b> {{registrada.placa}}<br>
-          <b>Tipo:</b><br>{{registrada.tipo}}<br>
-          <b>modelo:</b><br>{{registrada.info.modelo}}<br>
-          <b>cor:</b><br>{{registrada.info.cor}}<br>
-          <b>Obs:</b><br>{{registrada.info.obs}}<br>
-          <b>Dono:</b><br>{{registrada.dono.nome}}<br>
-          <b>Contato:</b><br>{{registrada.dono.contato}}<br>
-          <b>Pousada:</b><br>{{registrada.dono.pousada}}<br>
-          <b>Obs:</b><br>{{registrada.dono.obs}}<br>
-          <b>N° diárias:</b><br>{{registrada.checkout.n_diarias}}<br>
-          <b>Valor diária:</b><br>{{registrada.checkout.valor_diaria}}<br>
-          <b>Total a pagar:</b><br>{{registrada.checkout.total_a_pagar}}<br>
-          <b>Forma de pagamento:</b><br>{{registrada.checkout.forma_de_pagamento}}<br>
-          <b>Valor pago:</b><br>{{registrada.checkout.valor_pago}}<br>
-          <b>Troco:</b><br>{{registrada.checkout.troco}}<br>
+          <b>Ticket:</b>{{car.ticket}}
+          <b>Entrada:</b><br>{{car.in_timestamp}}<br>
+          <b>Placa:</b> {{car.placa}}<br>
+          <b>Tipo:</b><br>{{car.tipo}}<br>
+          <b>modelo:</b><br>{{car.info.modelo}}<br>
+          <b>cor:</b><br>{{car.info.cor}}<br>
+          <b>Obs:</b><br>{{car.info.obs}}<br>
+          <b>Dono:</b><br>{{car.dono.nome}}<br>
+          <b>Contato:</b><br>{{car.dono.contato}}<br>
+          <b>Pousada:</b><br>{{car.dono.pousada}}<br>
+          <b>Obs:</b><br>{{car.dono.obs}}<br>
+          <b>N° diárias:</b><br>{{car.checkout.n_diarias}}<br>
+          <b>Valor diária:</b><br>{{car.checkout.valor_diaria}}<br>
+          <b>Total a pagar:</b><br>{{car.checkout.total_a_pagar}}<br>
+          <b>Forma de pagamento:</b><br>{{car.checkout.forma_de_pagamento}}<br>
+          <b>Valor pago:</b><br>{{car.checkout.valor_pago}}<br>
+          <b>Troco:</b><br>{{car.checkout.troco}}<br>
         </span>
       </q-card-section>
       <q-card-actions align="right" class="bg-white text-teal">
         <q-btn color="primary" label="Print" @click="print" />
-        <q-btn flat label="OK" v-close-popup />
+        <q-btn flat label="OK" v-close-popup @click=modal_car_registrado />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -261,12 +260,13 @@
 </template>
 <script>
 import { useQuasar, date } from 'quasar'
-import { ref, watch, watchEffect, onBeforeUnmount, getCurrentInstance, nextTick } from 'vue'
+import { ref, reactive, computed, watch, watchEffect, onBeforeUnmount, getCurrentInstance, nextTick } from 'vue'
 import { useRouter } from 'vue-router' // import router
 import firebase from 'firebase'
 import "firebase/firestore"
 import QRious from "qrious";
 import QCurrencyInput from "../QCurrencyInput.vue";
+import nestedObjectAssign from 'nested-object-assign';
 export default {
   components: {
     QCurrencyInput
@@ -293,6 +293,8 @@ export default {
         console.log('current_user:', user);
       }
     })
+
+    const teste = computed(() => JSON.stringify(car, null, 2));
 
     const print = () => {
         let printCharacteristic;
@@ -390,8 +392,8 @@ export default {
           // Get the bytes for the text
           let encoder = new TextEncoder("utf-8");
           // Add line feed + carriage return chars to text
-          // let text = encoder.encode(JSON.stringify(registrada.value,null,2) + '\u000A\u000D');
-          let text = encoder.encode('      l1   l2  l3\u000A\u000D     l4   l5   l6'  + '\u000A\u000D');
+          let text = encoder.encode(JSON.stringify(car, null, 2) + '\u000A\u000D');
+          // let text = encoder.encode('      l1   l2  l3\u000A\u000D     l4   l5   l6'  + '\u000A\u000D');
           return printCharacteristic.writeValue(text).then(() => {
             console.log('Write done.');
           });
@@ -464,57 +466,66 @@ export default {
       })
     }
 
-    const config =  {
-          masked: false,
-          prefix: '',
-          suffix: '',
-          thousands: '.',
-          decimal: ',',
-          precision: 2,
-          disableNegative: false,
-          disabled: false,
-          min: null,
-          max: null,
-          allowBlank: false,
-          minimumNumberOfCharacters: 0,
-        }
+    const config = {
+      masked: false,
+      prefix: '',
+      suffix: '',
+      thousands: '.',
+      decimal: ',',
+      precision: 2,
+      disableNegative: false,
+      disabled: false,
+      min: null,
+      max: null,
+      allowBlank: false,
+      minimumNumberOfCharacters: 0,
+    }
    
-    const car = ref({
-      ticket: null,
-      in_timestamp: null,
-      placa: null,
-      tipo: 'carro',
-      info: {
-        modelo: null,
-        cor: null,
-        obs: null
-      },
-      dono: {
-        nome: null,
-        contato: null,
-        pousada: null,
-        obs: null
-      },
-      checkout: {
-        n_diarias: 1,
-        valor_diaria: 30.00,
-        valor_a_pagar: 30.00,
-        forma_de_pagamento: null,
-        valor_pago: 0,
-        valor_troco: 0
+    function initialState () {
+      return {
+        ticket: null,
+        in_timestamp: null,
+        placa: null,
+        tipo: 'carro',
+        info: {
+          modelo: null,
+          cor: null,
+          obs: null
+        },
+        dono: {
+          nome: null,
+          contato: null,
+          pousada: null,
+          obs: null
+        },
+        checkout: {
+          n_diarias: 1,
+          valor_diaria: 30.00,
+          valor_a_pagar: 30.00,
+          forma_de_pagamento: null,
+          valor_pago: 0,
+          valor_troco: 0
+        }
       }
-    })
+    }
+
+    let car = reactive(initialState())
+    
+    function resetForm () {
+      Object.assign(car, initialState);
+    }
+
     let entradas = null
 
     const chamatab = (val) => {
-      if (car.value.placa?.length > 6) {
+      if (car.placa?.length > 6) {
         tab.value = val
       }
     }
 
     const total_calc = () => {
         console.log("!!");
-        car.value.checkout.valor_a_pagar = car.value.checkout.valor_diaria * car.value.checkout.n_diarias
+        car.checkout.valor_a_pagar = car.checkout.valor_diaria * car.checkout.n_diarias
     }
     
     const getNow = () => {
@@ -522,95 +533,51 @@ export default {
       const date = today.getDate() +'-'+(today.getMonth()+1)+ '-' + today.getFullYear()
       const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       const dateTime = time + '  ' + date
-      car.value.in_timestamp = dateTime
+      car.in_timestamp = dateTime
     }
 
-    watch(() => car.value.placa, (x) => flg_placa_ok.value = x.length > 6 );
+    watch(() => car.placa, (x) => flg_placa_ok.value = x?.length > 6 );
    
     watchEffect(() => {
       console.log(1);
       componentKey.value += 1
-      car.value.checkout.valor_a_pagar = car.value.checkout.n_diarias * car.value.checkout.valor_diaria
-      console.log(car.value.checkout.n_diarias, car.value.checkout.valor_diaria, car.value.checkout.valor_a_pagar);
-      car.value.checkout.valor_troco = car.value.checkout.valor_pago - car.value.checkout.valor_a_pagar
+      car.checkout.valor_a_pagar = car.checkout.n_diarias * car.checkout.valor_diaria
+      // console.log(car.checkout.n_diarias, car.checkout.valor_diaria, car.checkout.valor_a_pagar);
+      car.checkout.valor_troco = car.checkout.valor_pago - car.checkout.valor_a_pagar
     });
 
     const onReset = async () => {
-      objReset(car.value)
-      // car.value = {
-      //     ticket: null,
-      //     in_timestamp: null,
-      //     placa: null,
-      //     tipo: null,
-      //     modelo: null,
-      //     cor: null,
-      //     obs: null,
-      //     dono: null,
-      //     contato: null,
-      //     pousada: null,
-      //     obs: null,
-      //     n_diarias: 1,
-      //     valor_diaria: 30,
-      //     valor_total: 0,
-      //     valor_pago: 0,
-      //     valor_troco: 0,
-      //     pago: false,
-      //     out_timestamp: null,
-      // }
-      await nextTick()
-      car.value.valor_diaria = 30
       componentKey.value += 1
       componentKey_valor_pago.value += 1
       componentKey_valor_diaria.value += 1
     }
-
-    const insertTest = async () => {
-      console.log(car.value);
-    }
-
+    
     const insert = async () => {
       const query = db.collection("carros");
       const snapshot = await query.get();
       const count = snapshot.size;
-     
-      // let car_to_save = {
-      //   ticket: car.value.placa + '-' + (parseInt(+ new Date()/1000)),
-      //   domain: 'teste',
-      //   in_timestamp: + new Date(),
-      //   placa: car.value.placa,
-      //   tipo: car.value.tipo,
-      //   modelo: car.value.modelo,
-      //   cor: car.value.cor,
-      //   dono: car.value.dono, 
-      //   contato: car.value.contato,
-      //   pousada: car.value.pousada,
-      //   obs: car.value.obs,
-      //   n_diarias: car.value.n_diarias,
-      //   valor_diaria: car.value.valor_diaria,
-      //   valor_total_a_pagar: car.value.valor_total_a_pagar,
-      //   valor_pago: car.value.valor_pago,
-      //   valor_troco: car.value.valor_troco,
-      //   out_timestamp: null
-      // }
-      // registrada.value = car_to_save.value
-
       db.collection("carros")
-      .add(car.value)
+      .add(car)
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
-        console.log(car.value.in_timestamp);
+        console.log(car.in_timestamp);
         qrLink.value = docRef.id
         generateQrCode()
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
       });  
-      onReset()
       dialog_save_ok.value = true  
+    }
+
+    const modal_car_registrado = () => {
+      console.log('modal_car_registrado');
+      chamatab('placa')
+      Object.assign(car, initialState())
     }
   
     setInterval(getNow, 1000)
-    return {insertTest,
+    return { teste, resetForm, modal_car_registrado,
       print, qrcode, qrcode2, qrLink,
       flg_placa_ok, chamatab,tab,
       dialog_save_ok, registrada, componentKey, 
